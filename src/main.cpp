@@ -68,6 +68,8 @@ int main(int argc, char **argv) {
         return EXIT_FAILURE;
     }
 
+    std::string file_in(argv[1]);
+    std::string file_out(argv[2]);
 
     return batchProcess(file_in, file_out, max);
 }

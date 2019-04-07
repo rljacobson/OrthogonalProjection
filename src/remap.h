@@ -10,7 +10,8 @@
 /**
  * The projection namespace provides facilities to project from an equirectangular projection to an
  * orthographic projection by giving the backwards transformation $T\colon D \to S^2_{\text{upper}}$
- * from the unit disk to the upper half-sphere given by $(x, y) \to (λ, φ)$. In fact, $T$ extends to
+ * from the unit disk to the upper half-sphere given by $(x, y) \to (lambda, phi)$. In fact, $T$
+ * extends to
  * $[-1, 1]X[-1,1]$ (or any larger region) by "wrapping" around the sphere.
  *
  * The remap function, named after its more general cousin in OpenCV, performs the actual
@@ -40,25 +41,25 @@ namespace projection{
     void remap(cv::Mat &in, cv::Mat &out, int diam = 0);
 
     /**
-     * @brief Converts (x, y) -> λ (Longitude)
+     * @brief Converts (x, y) -> lambda (Longitude)
      *
-     * Given a point (x, y) in [-1, 1]X[-1, 1], returns a number in (−π, π] representing
-     * the orthographic projection of the point to the λ-coordinate in the upper-half sphere.
+     * Given a point (x, y) in [-1, 1]X[-1, 1], returns a number in (−pi, pi] representing
+     * the orthographic projection of the point to the lambda-coordinate in the upper-half sphere.
      * @param x x-coordinate
      * @param y y-coordinate
-     * @return λ-coordinate.
+     * @return lambda-coordinate.
      */
-    float OrthoToRectλ(float x, float y);
+    float OrthoToRectLambda(float x, float y);
 
     /**
-     * @brief @brief Converts (x, y) -> φ (Latitude)
+     * @brief @brief Converts (x, y) -> phi (Latitude)
      *
-     * Given a point (x, y) in [-1, 1]X[-1, 1], returns a number in [0, π] representing
+     * Given a point (x, y) in [-1, 1]X[-1, 1], returns a number in [0, pi] representing
      * the orthographic projection of the point to the φ-coordinate in the upper-half sphere.
      * @param x x-coordinate
      * @param y y-coordinate
-     * @return φ-coordinate.
+     * @return phi-coordinate.
      */
-    float OrthoToRectφ(float x, float y);
+    float OrthoToRectPhi(float x, float y);
 
 }
