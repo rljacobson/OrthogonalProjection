@@ -8,11 +8,11 @@ itself.)
 ## Usage
 
 ```bash
-$ project path/to/input/file%04d.png path/to/output/file%04d.png framecount
+$ project path/to/input/file{:04d}.png path/to/output/file{:04d}.png [max | min max]
 ```
 
-where `framecount` is a natural number such that the frames are numbered from 1 to `framecount`. The
-name of the executable is unfortunate.
+where `min` and `max` are natural numbers such that the frames are numbered from `min` to `max`. If
+`min` is not supplied, it is assumed to be `1`. The name of the executable is unfortunate.
 
 ## Useful Image Processing Code
 

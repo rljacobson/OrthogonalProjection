@@ -13,12 +13,13 @@
 #include "colorbalance.h"
 #include "remap.h"
 
-int batchProcess(const std::string &file_in, const std::string &file_out, long int max) {
+int batchProcess(const std::string &file_in, const std::string &file_out, int min, int max) {
     std::cout << "Processing images...\n";
 
-    for (int j = 1; j < max; j++) {
+    for (long int j = min; j <= max; j++) {
         std::string inpath  = fmt::format(file_in, j);
         std::string outpath = fmt::format(file_out, j);
+        std::cout << inpath << '\n';
 
         cv::Mat image = cv::imread(inpath, 1);
         if (image.empty()) {
@@ -37,16 +38,17 @@ int batchProcess(const std::string &file_in, const std::string &file_out, long i
 
     } // End for
 
-    std::cout << "Done!" << std::endl;
+    std::cout << "Done processing " << (max-min+1) << std::endl;
 
     return EXIT_SUCCESS;
 }
 
 void printUsage() {
-    std::cout << "Usage:\n\n\tproject inpattern outpattern n\n\n"
+    std::cout << "Usage:\n\n\tproject inpattern outpattern [max | min max]\n\n"
                  "where\n\n\tinpatter is input/frames/path/in{:04d}.png\n"
-                 "\tinpatter is output/frames/path/out{:04d}.png\n"
-                 "\tn is the 1-indexed number of frames total." << std::endl;
+                 "\toutpatter is output/frames/path/out{:04d}.png\n"
+                 "\tmin (if given) and max are the 1-indexed number of the frames to process." <<
+                 std::endl;
 }
 
 int main(int argc, char **argv) {
@@ -55,15 +57,30 @@ int main(int argc, char **argv) {
     //
     // std::string file_out("/Users/rljacobson/Downloads/out/projectedSDR-FAB/out{:04d}.png");
 
+    std::cout << "Value of argc is " << argc << ".\n";
 
-    if(argc < 3){
+    int min = -1;
+    int max = -1;
+
+    if(argc == 5){
+        std::string min_str(argv[3]);
+        std::string max_str(argv[4]);
+        min = std::stoi(min_str);
+        max = std::stoi(max_str);
+    } else if(argc==4) {
+        min = 1;
+        std::string max_str(argv[3]);
+        max = std::stoi(max_str);
+    } else {
+        std::cout << "Frames: " <<  min << " to " << max << '\n';
         printUsage();
         return EXIT_FAILURE;
     }
 
-    long int max = strtol(argv[3], nullptr, 10);
+    std::cout << "Frames: " <<  min << " to " << max << '\n';
 
-    if(max <= 0){
+
+    if(max <= 0 || min <= 0 || min > max){
         printUsage();
         return EXIT_FAILURE;
     }
@@ -71,5 +88,5 @@ int main(int argc, char **argv) {
     std::string file_in(argv[1]);
     std::string file_out(argv[2]);
 
-    return batchProcess(file_in, file_out, max);
+    return batchProcess(file_in, file_out, min, max);
 }
